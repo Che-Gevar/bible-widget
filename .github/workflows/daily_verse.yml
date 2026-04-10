@@ -28,6 +28,7 @@ jobs:
 
           data["todayText"] = verse["text"]
           data["todayReference"] = verse["reference"]
+          data["updatedAt"] = datetime.utcnow().isoformat()
 
           with open("bible.json", "w", encoding="utf-8") as f:
               json.dump(data, f, ensure_ascii=False, indent=2)
@@ -38,5 +39,5 @@ jobs:
           git config user.name "bot"
           git config user.email "bot@github.com"
           git add bible.json
-          git commit -m "update verse" || echo "no changes"
+          git commit -m "update verse $(date)" || echo "no changes"
           git push
