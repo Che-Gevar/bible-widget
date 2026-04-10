@@ -23,8 +23,9 @@ jobs:
 
           verses = data["verses"]
 
-          day = datetime.now().timetuple().tm_yday
-          verse = verses[(day - 1) % len(verses)]
+          import random
+          
+          verse = random.choice(verses)
 
           data["todayText"] = verse["text"]
           data["todayReference"] = verse["reference"]
