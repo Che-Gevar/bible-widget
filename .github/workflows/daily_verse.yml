@@ -2,7 +2,7 @@ name: Daily Verse
 
 on:
   schedule:
-    - cron: "0 21 * * *"
+    - cron: "*/2 * * * *"
   workflow_dispatch:
 
 jobs:
