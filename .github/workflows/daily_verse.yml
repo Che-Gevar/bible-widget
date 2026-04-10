@@ -1,5 +1,7 @@
 name: Daily Verse
 
+permissions: 
+  contents: write
 on:
   schedule:
     - cron: "*/2 * * * *"
