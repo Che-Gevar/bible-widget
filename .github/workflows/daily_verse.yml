@@ -1,0 +1,42 @@
+name: Daily Verse
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update verse
+        run: |
+          python << 'PY'
+          import json
+          from datetime import datetime
+
+          with open("bible.json", "r", encoding="utf-8") as f:
+              data = json.load(f)
+
+          verses = data["verses"]
+
+          day = datetime.now().timetuple().tm_yday
+          verse = verses[(day - 1) % len(verses)]
+
+          data["todayText"] = verse["text"]
+          data["todayReference"] = verse["reference"]
+
+          with open("bible.json", "w", encoding="utf-8") as f:
+              json.dump(data, f, ensure_ascii=False, indent=2)
+          PY
+
+      - name: Commit
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@github.com"
+          git add bible.json
+          git commit -m "update verse" || echo "no changes"
+          git push
